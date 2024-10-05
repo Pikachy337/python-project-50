@@ -6,7 +6,8 @@ def main():
 
 
 def diff():
-    print(generate_diff('file1.json', 'file2.json'))
+    print(generate_diff('../../tests/fixtures/file1.json',
+                        '../../tests/fixtures/file2.json'))
 
 
 if __name__ == '__main__':

@@ -3,7 +3,9 @@ import json
 
 
 def main_gendiff():
-    parser = argparse.ArgumentParser(description='Compares two configuration files and shows a difference.')
+    parser = argparse.ArgumentParser(description='Compares two'
+                                                 ' configuration files'
+                                                 ' and shows a difference.')
 
     # Positional arguments
     parser.add_argument('first_file', type=str)
