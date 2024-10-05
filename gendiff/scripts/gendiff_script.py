@@ -1,4 +1,4 @@
-from hexlet_python_package.code.gendiff_main import main_gendiff, generate_diff
+from gendiff.code.gendiff_main import main_gendiff, generate_diff
 
 
 def main():
