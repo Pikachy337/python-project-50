@@ -5,10 +5,10 @@ package-install:
 	python3 -m pip install --user dist/*.whl
 
 package-reinstall:
-	pip install --user --force-reinstall dist/*.whl
+	pip install --force-reinstall dist/*.whl
 
 test:
-	poetry run pytest
+	poetry run pytest -vv
 
 test-coverage:
 	poetry run pytest --cov=gendiff --cov-report xml
