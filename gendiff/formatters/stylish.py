@@ -21,9 +21,13 @@ def format_node(node, depth):
     elif node["type"] == "unchanged":
         return f"{indent}  {node['key']}: {format_value(node['value'], depth)}"
     elif node["type"] == "changed":
-        return f"{indent}- {node['key']}: {format_value(node['old_value'], depth)}\n{indent}+ {node['key']}: {format_value(node['new_value'], depth)}"
+        return (f"{indent}- {node['key']}: {format_value(node['old_value'],
+                                                         depth)}"
+                f"\n{indent}+ {node['key']}: {format_value(node['new_value'],
+                                                           depth)}")
     elif node["type"] == "nested":
-        children = "\n".join(format_node(child, depth + 1) for child in node["children"].values())
+        children = "\n".join(format_node(child, depth + 1)
+                             for child in node["children"].values())
         return f"{indent}  {node['key']}: {{\n{children}\n{indent}  }}"
 
 

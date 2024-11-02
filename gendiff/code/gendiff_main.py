@@ -10,8 +10,8 @@ def main_gendiff():
     parser.add_argument('first_file', type=str, help='First file path')
     parser.add_argument('second_file', type=str, help='Second file path')
     # Optional argument with choices for format
-    parser.add_argument('-f', '--format', type=str, default='stylish', help='Output format',
-                        choices=['stylish'])
+    parser.add_argument('-f', '--format', type=str, default='stylish',
+                        help='Output format', choices=['stylish'])
 
     args = parser.parse_args()
 
@@ -41,11 +41,13 @@ def build_diff(data1, data2):
         elif key not in data1 and key in data2:
             diff[key] = {"type": "added", "value": data2[key]}
         elif isinstance(data1[key], dict) and isinstance(data2[key], dict):
-            diff[key] = {"type": "nested", "children": build_diff(data1[key], data2[key])}
+            diff[key] = {"type": "nested",
+                         "children": build_diff(data1[key], data2[key])}
         elif data1[key] == data2[key]:
             diff[key] = {"type": "unchanged", "value": data1[key]}
         else:
-            diff[key] = {"type": "changed", "old_value": data1[key], "new_value": data2[key]}
+            diff[key] = {"type": "changed",
+                         "old_value": data1[key], "new_value": data2[key]}
 
     return diff
 
@@ -54,22 +56,34 @@ def format_stylish(diff, depth=0):
     indent = ' ' * (depth * 4)
     result = ['{']
 
+    type_format_map = {
+        'added': lambda key, item: (
+            f"{indent}  + {key}: "
+            f"{format_value(item['value'], depth + 1)}"
+        ),
+        'removed': lambda key, item: (
+            f"{indent}  - {key}: "
+            f"{format_value(item['value'], depth + 1)}"
+        ),
+        'unchanged': lambda key, item: (
+            f"{indent}    {key}: "
+            f"{format_value(item['value'], depth + 1)}"
+        ),
+        'changed': lambda key, item: (
+            f"{indent}  - {key}: "
+            f"{format_value(item['old_value'], depth + 1)}\n"
+            f"{indent}  + {key}: "
+            f"{format_value(item['new_value'], depth + 1)}"
+        ),
+        'nested': lambda key, item: (
+            f"{indent}    {key}: "
+            f"{format_stylish(item['children'], depth + 1)}"
+        ),
+    }
+
     for key, item in diff.items():
         type_ = item['type']
-        current_indent = indent + ' ' * 2  # Adjusted indentation for each type
-
-        if type_ == 'added':
-            result.append(f"{current_indent}+ {key}: {format_value(item['value'], depth + 1)}")
-        elif type_ == 'removed':
-            result.append(f"{current_indent}- {key}: {format_value(item['value'], depth + 1)}")
-        elif type_ == 'unchanged':
-            result.append(f"{current_indent}  {key}: {format_value(item['value'], depth + 1)}")
-        elif type_ == 'changed':
-            result.append(f"{current_indent}- {key}: {format_value(item['old_value'], depth + 1)}")
-            result.append(f"{current_indent}+ {key}: {format_value(item['new_value'], depth + 1)}")
-        elif type_ == 'nested':
-            children = format_stylish(item['children'], depth + 1)
-            result.append(f"{current_indent}  {key}: {children}")
+        result.append(type_format_map[type_](key, item))
 
     result.append(indent + '}')
     return '\n'.join(result)
