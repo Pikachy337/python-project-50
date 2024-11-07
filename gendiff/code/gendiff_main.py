@@ -2,6 +2,7 @@ import argparse
 from gendiff.code.parsers import parse_file
 from gendiff.formatters.stylish import format_stylish as stylish
 from gendiff.formatters.plain import format_stylish as plain
+from gendiff.formatters.json import format_stylish as json
 
 
 def main_gendiff():
@@ -13,7 +14,8 @@ def main_gendiff():
     parser.add_argument('second_file', type=str, help='Second file path')
     # Optional argument with choices for format
     parser.add_argument('-f', '--format', type=str, default='stylish',
-                        help='Output format', choices=['stylish'])
+                        help='Output format',
+                        choices=['stylish', 'plain', 'json'])
 
     args = parser.parse_args()
 
@@ -31,6 +33,8 @@ def generate_diff(file_path1, file_path2, format_name="stylish"):
         return stylish(diff)
     elif format_name == "plain":
         return plain(diff)
+    elif format_name == "json":
+        return json(diff)
     else:
         raise ValueError(f"Unknown format: {format_name}")
 

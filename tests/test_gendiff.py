@@ -1,4 +1,6 @@
+import json
 from gendiff.code.gendiff_main import generate_diff
+import pytest
 
 
 def test_generate_diff_json():
@@ -74,6 +76,7 @@ def test_generate_diff_nested_json():
 
     assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json') == expected_output
 
+
 def test_plain_format():
     expected_output = (
         "Property 'common.follow' was added with value: false\n"
@@ -88,4 +91,21 @@ def test_plain_format():
         "Property 'group2' was removed\n"
         "Property 'group3' was added with value: [complex value]"
     )
-    assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json', format_name='plain') == expected_output
+    assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json',
+                         format_name='plain') == expected_output
+
+
+def test_generate_difr_json():
+    diff_json = generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json', format_name='json')
+    diff_data = json.loads(diff_json)
+
+    assert isinstance(diff_data, dict)
+    assert "common" in diff_data
+    assert "group1" in diff_data
+    assert "group2" in diff_data
+    assert "group3" in diff_data
+
+    assert isinstance(diff_data["common"], dict)
+    assert "children" in diff_data["common"]
+    assert "setting1" in diff_data["common"]["children"]
+    assert "setting6" in diff_data["common"]["children"]
