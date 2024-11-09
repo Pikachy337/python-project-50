@@ -1,5 +1,5 @@
 import argparse
-from gendiff.code.parsers import parse_file
+from gendiff.gendiff.parsers import parse_file
 from gendiff.formatters.stylish import format_stylish as stylish
 from gendiff.formatters.plain import format_stylish as plain
 from gendiff.formatters.json import format_stylish as json
