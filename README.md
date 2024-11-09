@@ -35,7 +35,7 @@
 Run the `gendiff` command:
 
 ```bash
-gendiff [options] <filepath1> <filepath2>
+gendiff_main [options] <filepath1> <filepath2>
 ```
 
 ### Options
@@ -48,19 +48,19 @@ gendiff [options] <filepath1> <filepath2>
 #### JSON output
 
 ```bash
-gendiff --format json file1.json file2.json
+gendiff_main --format json file1.json file2.json
 ```
 
 #### Plain output
 
 ```bash
-gendiff --format plain file1.json file2.json
+gendiff_main --format plain file1.json file2.json
 ```
 
 #### Stylish output
 
 ```bash
-gendiff file1.yaml file2.yaml
+gendiff_main file1.yaml file2.yaml
 ```
 
 ## Output Formats

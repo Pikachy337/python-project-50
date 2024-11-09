@@ -1,5 +1,5 @@
 import json
-from gendiff.gendiff.main import generate_diff
+from gendiff.gendiff_main.main import generate_diff
 
 
 def test_generate_diff_json():
