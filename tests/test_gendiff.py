@@ -3,8 +3,7 @@ from gendiff.gendiff_main.main import generate_diff
 
 
 def test_generate_diff_json():
-    with open('tests/fixtures/file1.json') as file1, open('tests/fixtures/file2.json') as file2:
-        expected_output = """{
+    expected_output = """{
   - follow: false
     host: hexlet.io
   - proxy: 123.234.53.22
@@ -94,7 +93,7 @@ def test_plain_format():
                          format_name='plain') == expected_output
 
 
-def test_generate_difr_json():
+def test_generate_diff_json_output():
     diff_json = generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json', format_name='json')
     diff_data = json.loads(diff_json)
 
