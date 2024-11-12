@@ -40,7 +40,7 @@ def test_generate_diff_nested_json():
         }
         setting6: {
             doge: {
-              - wow:
+              - wow: 
               + wow: so much
             }
             key: value
