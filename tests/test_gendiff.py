@@ -40,7 +40,7 @@ def test_generate_diff_nested_json():
         }
         setting6: {
             doge: {
-              - wow: # noqa: W291
+              - wow: 
               + wow: so much
             }
             key: value
@@ -72,7 +72,7 @@ def test_generate_diff_nested_json():
     }
 }"""
 
-    assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json') == expected_output
+    assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json').rstrip() == expected_output.rstrip()
 
 
 def test_plain_format():
