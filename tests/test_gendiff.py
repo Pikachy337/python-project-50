@@ -72,8 +72,7 @@ def test_generate_diff_nested_json():
     }
 }"""
 
-    assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json').rstrip() == expected_output.rstrip()
-
+    assert generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json') == expected_output
 
 def test_plain_format():
     expected_output = (
