@@ -26,7 +26,7 @@ def test_generate_diff_yml():
     assert generate_diff('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml') == expected_output
 
 
-def test_generate_diff_nested_json():
+def test_generate_diff_nested_json(): # noqa
     expected_output = """{
     common: {
       + follow: false
