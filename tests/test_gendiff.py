@@ -1,3 +1,4 @@
+# flake8: noqa
 import json
 from gendiff.gendiff_main.main import generate_diff
 
@@ -26,7 +27,7 @@ def test_generate_diff_yml():
     assert generate_diff('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml') == expected_output
 
 
-def test_generate_diff_nested_json():  # noqa: W291
+def test_generate_diff_nested_json():
     expected_output = """{
     common: {
       + follow: false
