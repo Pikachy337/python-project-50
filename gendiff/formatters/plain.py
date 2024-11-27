@@ -1,4 +1,7 @@
 def format_value(value):
+    """
+    Formats a value for a plain diff representation.
+    """
     if isinstance(value, dict):
         return '[complex value]'
     elif isinstance(value, str):
@@ -9,7 +12,10 @@ def format_value(value):
         return str(value).lower()
 
 
-def format_stylish(diff, path=''):
+def format_plain(diff, path=''):
+    """
+    Formats a diff as a plain string representation.
+    """
     lines = []
     for key, value in diff.items():
         full_path = f"{path}.{key}" if path else key
@@ -25,7 +31,7 @@ def format_stylish(diff, path=''):
             lines.append(f"Property '{full_path}' was"
                          f" updated. From {old_value} to {new_value}")
         elif value['type'] == 'nested':
-            nested_lines = format_stylish(value['children'], full_path)
+            nested_lines = format_plain(value['children'], full_path)
             lines.append(nested_lines)
 
     return '\n'.join(line for line in lines if line)

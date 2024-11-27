@@ -3,6 +3,11 @@ import yaml
 
 
 def parse_file(filepath):
+    """
+    Parses a file based on its extension ('yaml', 'yml', 'json').
+
+    Supports YAML and JSON formats. Raises an error for unsupported formats.
+    """
     extension = filepath.split('.')[-1]
 
     if extension in ['yml', 'yaml']:
@@ -12,4 +17,4 @@ def parse_file(filepath):
         with open(filepath, 'r') as file:
             return json.load(file)
     else:
-        return f'Unsupported file format {extension}'
+        raise ValueError(f'Unsupported format: {extension}')

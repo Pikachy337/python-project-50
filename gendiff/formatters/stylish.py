@@ -2,6 +2,9 @@ INDENT = "    "
 
 
 def format_value(value, depth):
+    """
+    Formats a value for displaying in a diff.
+    """
     if isinstance(value, dict):
         indent = ' ' * (depth * 4)
         nested_indent = ' ' * ((depth + 1) * 4)
@@ -19,6 +22,9 @@ def format_value(value, depth):
 
 
 def format_stylish(diff, depth=0):
+    """
+    Formats a diff as a stylish string representation.
+    """
     indent = ' ' * (depth * 4)
     result = ['{']
 
