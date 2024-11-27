@@ -1,8 +1,9 @@
-from gendiff.diff_generator import main_gendiff, generate_diff
+from gendiff.diff_generator import generate_diff
+from gendiff.cmd_interface import cli
 
 
 def main():
-    main_gendiff()
+    cli()
 
 
 def diff():
