@@ -1,6 +1,8 @@
 # flake8: noqa
 import json
+
 import pytest
+
 from gendiff.diff_generator import generate_diff
 from gendiff.formatters import get_formatter
 from gendiff.parsers import parse_file
