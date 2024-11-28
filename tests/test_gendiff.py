@@ -1,6 +1,5 @@
 # flake8: noqa
 import json
-
 import pytest
 from gendiff.diff_generator import generate_diff
 from gendiff.formatters import get_formatter
@@ -25,25 +24,38 @@ def expected_output_plain():
         return file.read()
 
 
-def test_generate_diff_json(expected_output_json_yml):
-    diff_json = generate_diff('tests/fixtures/file1.json', 'tests/fixtures/file2.json')
-    assert diff_json == expected_output_json_yml
+@pytest.mark.parametrize(
+    "file1, file2",
+    [
+        ('tests/fixtures/file1.json', 'tests/fixtures/file2.json'),
+        ('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml')
+    ]
+)
+def test_generate_diff(file1, file2, expected_output_json_yml):
+    diff = generate_diff(file1, file2)
+    assert diff == expected_output_json_yml
 
 
-def test_generate_diff_yml(expected_output_json_yml):
-    diff_yml = generate_diff('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml')
-    assert diff_yml == expected_output_json_yml
+@pytest.mark.parametrize(
+    "file1, file2",
+    [
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json')
+    ]
+)
+def test_generate_diff_nested(file1, file2, expected_output_nested_json):
+    diff = generate_diff(file1, file2)
+    assert diff == expected_output_nested_json
 
 
-def test_generate_diff_nested_json(expected_output_nested_json):
-    diff_nested_json = generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json')
-    assert diff_nested_json == expected_output_nested_json
-
-
-def test_plain_format(expected_output_plain):
-    diff_plain = generate_diff('tests/fixtures/file3.json', 'tests/fixtures/file4.json',
-                               format_name='plain')
-    assert diff_plain == expected_output_plain
+@pytest.mark.parametrize(
+    "file1, file2, format_name",
+    [
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 'plain')
+    ]
+)
+def test_plain_format(file1, file2, format_name, expected_output_plain):
+    diff = generate_diff(file1, file2, format_name=format_name)
+    assert diff == expected_output_plain
 
 
 def test_generate_diff_json_output():
