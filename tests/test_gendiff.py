@@ -27,37 +27,28 @@ def expected_output_plain():
 
 
 @pytest.mark.parametrize(
-    "file1, file2",
+    "file1, file2, formatter, expected_output_func",
     [
-        ('tests/fixtures/file1.json', 'tests/fixtures/file2.json'),
-        ('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml')
+        ('tests/fixtures/file1.json', 'tests/fixtures/file2.json', 'stylish', 'json_yml'),
+        ('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml', 'stylish', 'json_yml'),
+
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 'stylish', 'nested_json'),
+
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 'plain', 'plain')
     ]
 )
-def test_generate_diff(file1, file2, expected_output_json_yml):
-    diff = generate_diff(file1, file2)
-    assert diff == expected_output_json_yml
+def test_generate_diff(file1, file2, formatter, expected_output_func,
+                       expected_output_json_yml, expected_output_nested_json,
+                       expected_output_plain):
+    if expected_output_func == 'json_yml':
+        expected_output = expected_output_json_yml
+    elif expected_output_func == 'nested_json':
+        expected_output = expected_output_nested_json
+    elif expected_output_func == 'plain':
+        expected_output = expected_output_plain
 
-
-@pytest.mark.parametrize(
-    "file1, file2",
-    [
-        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json')
-    ]
-)
-def test_generate_diff_nested(file1, file2, expected_output_nested_json):
-    diff = generate_diff(file1, file2)
-    assert diff == expected_output_nested_json
-
-
-@pytest.mark.parametrize(
-    "file1, file2, format_name",
-    [
-        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 'plain')
-    ]
-)
-def test_plain_format(file1, file2, format_name, expected_output_plain):
-    diff = generate_diff(file1, file2, format_name=format_name)
-    assert diff == expected_output_plain
+    diff = generate_diff(file1, file2, formatter)
+    assert diff == expected_output
 
 
 def test_generate_diff_json_output():
